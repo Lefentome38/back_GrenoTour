@@ -1,0 +1,19 @@
+GET http://localhost:1337/random-between/5/10
+###
+POST http://localhost:1337/api/auth/local/register
+Content-Type: application/json
+
+{
+  "username": "tomtom",
+  "email": "thomaslaforge@gmail.com",
+  "password": "admin1234"
+}
+
+###
+POST http://localhost:1337/api/auth/local
+Content-Type: application/json
+
+{
+  "identifier": "thomaslaforge@gmail.com",
+  "password": "admin1234"
+}

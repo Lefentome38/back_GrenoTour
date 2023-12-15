@@ -3,6 +3,8 @@ import 'dotenv/config';
 import cors from "cors";
 import bodyParser from "body-parser";
 import { DataTypes, Sequelize } from "sequelize";
+import { UserModel } from "./model/User";
+import { authRouter } from "./router/authentification";
 
 const app = express();
 app.use(cors());
@@ -16,17 +18,15 @@ const sequelize = new Sequelize({
   })
 
 // Conserver mes données
-sequelize.sync()
+ sequelize.sync()
 // Reset des données
-// sequelize.sync({ force: true })
+//sequelize.sync({ force: true })
 
-app.get('/random-between/:min/:max', (req, res) => {
-    const min = parseInt(req.params.min)
-    const max = parseInt(req.params.max)
-    const random = Math.floor(Math.random() * (max - min + 1)) + min
-    console.log('number' + random);
-    res.send(random.toString())
-})
+export const User = UserModel(sequelize);
+const apiRouter = express.Router();
+apiRouter.use('/auth', authRouter);
+
+app.use("/api", apiRouter);
 
 app.listen(port, () => {
     console.log('serveur running on port : ' + port);
